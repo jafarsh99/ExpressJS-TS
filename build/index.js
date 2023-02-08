@@ -11,9 +11,13 @@ const helmet_1 = __importDefault(require("helmet"));
 const cors_1 = __importDefault(require("cors"));
 const dotenv_1 = require("dotenv");
 //Routers
-const UserRoutes_1 = __importDefault(require("./routers/UserRoutes"));
-const AuthRoutes_1 = __importDefault(require("./routers/AuthRoutes"));
-const TodoRoutes_1 = __importDefault(require("./routers/TodoRoutes"));
+const UserRoutes_1 = __importDefault(require("./src/routers/UserRoutes"));
+const AuthRoutes_1 = __importDefault(require("./src/routers/AuthRoutes"));
+const TodoRoutes_1 = __importDefault(require("./src/routers/TodoRoutes"));
+//SWAGGER
+const swaggerUi = require('swagger-ui-express');
+const apiDocumentation = require('../swagger.json');
+// END SWAGGER
 class App {
     constructor() {
         this.app = (0, express_1.default)();
@@ -43,8 +47,4 @@ app.listen(port, () => {
     console.log("Aplikasi ini berjalan di port " + port);
     console.log(process.env.DB_USER);
 });
-// const app = express();
-// app.route("/").get((req, res)=> {
-//     res.send("hallo mabro")
-// });
-// app.listen(8000);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(apiDocumentation));

@@ -7,10 +7,14 @@ import cors from "cors";
 import {config as dotenv} from "dotenv";
 
 //Routers
-import UserRoutes from "./routers/UserRoutes";
-import AuthRoutes from "./routers/AuthRoutes";
-import TodoRoutes from "./routers/TodoRoutes";
+import UserRoutes from "./src/routers/UserRoutes";
+import AuthRoutes from "./src/routers/AuthRoutes";
+import TodoRoutes from "./src/routers/TodoRoutes";
 
+//SWAGGER
+const swaggerUi = require('swagger-ui-express');
+const apiDocumentation = require('../swagger.json');
+// END SWAGGER
 
 class App {
     public app: Application;
@@ -42,17 +46,14 @@ class App {
     }
 }
 
+
+
 const port: number = 8000;
 const app = new App().app;
 app.listen(port, () => {
     console.log("Aplikasi ini berjalan di port "+ port);
     console.log(process.env.DB_USER);
     
-})
+});
 
-// const app = express();
-// app.route("/").get((req, res)=> {
-//     res.send("hallo mabro")
-// });
-
-// app.listen(8000);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(apiDocumentation));
